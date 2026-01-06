@@ -182,7 +182,7 @@ interface Props {
 }
 
 /* =========================
-   SMALL UI FIELD COMPONENT
+   SMALL UI FIELD COMPONENT (Same UI as Profile page)
 ========================= */
 
 const Field = ({ label, value }: { label: string; value: any }) => {
@@ -192,11 +192,13 @@ const Field = ({ label, value }: { label: string; value: any }) => {
   }
 
   return (
-    <div className="space-y-1">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="text-xs sm:text-sm font-medium text-gray-900 break-words">
+    <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0 border rounded-lg px-3 sm:px-4 py-2 bg-gray-50">
+      <span className="text-gray-600 text-xs sm:text-sm">
+        {label}
+      </span>
+      <span className="font-medium text-gray-900 break-words text-right sm:text-left text-xs sm:text-sm">
         {value}
-      </p>
+      </span>
     </div>
   );
 };
@@ -299,11 +301,11 @@ const StageDetails: React.FC<Props> = ({ stage, student }) => {
         filteredGroupedFields.map(
           ([groupName, fields]: any) => (
             <div key={groupName}>
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4">
+              <h4 className="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">
                 {groupName}
               </h4>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {fields.map((field: any) => {
                   const formattedValue = formatValue(
                     student?.[field.key],

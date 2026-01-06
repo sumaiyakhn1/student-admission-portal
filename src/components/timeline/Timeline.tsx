@@ -7,27 +7,27 @@ interface Props {
 }
 
 const Timeline = ({ stages, student }: Props) => {
-  // 1️⃣ Sort ALL stages by sequence
+  // 1️⃣ Sort stages by sequence
   const orderedStages = [...stages].sort(
     (a, b) => a.sequence - b.sequence
   );
 
-  // 🔴 HARD-CODED completed stages (temporary)
-  const FORCE_COMPLETED = ["Enquiry", "Data Requested"];
-
-  // 2️⃣ Resolve current stage
+  // 2️⃣ Find current stage sequence using student.currentStage
   const currentStageName = student?.currentStage;
 
-  // 3️⃣ Assign status
-  const enrichedStages = orderedStages.map((stage) => {
-    let status: "completed" | "active" | "pending" = "pending"; // ✅ FIX
+  const currentStageObj = orderedStages.find(
+    (s) => s.stage === currentStageName
+  );
 
-    // ✅ Force completed
-    if (FORCE_COMPLETED.includes(stage.stage)) {
+  const currentSequence = currentStageObj?.sequence ?? 0;
+
+  // 3️⃣ Assign status based on sequence
+  const enrichedStages = orderedStages.map((stage) => {
+    let status: "completed" | "active" | "pending" = "pending";
+
+    if (stage.sequence < currentSequence) {
       status = "completed";
-    }
-    // 🟡 Active stage
-    else if (stage.stage === currentStageName) {
+    } else if (stage.sequence === currentSequence) {
       status = "active";
     }
 

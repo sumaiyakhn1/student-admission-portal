@@ -1,0 +1,597 @@
+[
+    {
+        "stageCounselor": [],
+        "saveZeroAmountTransaction": false,
+        "status": true,
+        "_id": "664ef2ed0f5c370013650aa7",
+        "stage": "Prospectus",
+        "sequence": 2,
+        "fields": [
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d794f",
+                "key": "dob",
+                "displayName": "Date of Birth",
+                "requiredField": false,
+                "fieldType": "date",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [
+                    "Male",
+                    "Female"
+                ],
+                "_id": "6527b622bb1c50bcd64d794e",
+                "key": "gender",
+                "displayName": "Gender",
+                "requiredField": false,
+                "fieldType": "selectBox",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d794d",
+                "key": "phone",
+                "displayName": "Phone",
+                "requiredField": false,
+                "fieldType": "phone",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d794c",
+                "key": "email",
+                "displayName": "Email",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d794b",
+                "key": "address",
+                "displayName": "Address",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d794a",
+                "key": "state",
+                "displayName": "State",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7949",
+                "key": "country",
+                "displayName": "Country",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7948",
+                "key": "pinCode",
+                "displayName": "Pin Code",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7947",
+                "key": "fatherName",
+                "displayName": "Father Name",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Parent Details"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7946",
+                "key": "motherName",
+                "displayName": "Mother Name",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Parent Details"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7945",
+                "key": "customField1",
+                "displayName": "Special Achiements",
+                "requiredField": false,
+                "fieldType": "toggle",
+                "groupBy": "Institute Info"
+            },
+            {
+                "options": [],
+                "_id": "6527b622bb1c50bcd64d7944",
+                "key": "name",
+                "displayName": "Student Name",
+                "requiredField": false,
+                "fieldType": "toggle",
+                "sequence": 1,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "69417c12f3bb8d000fe78843",
+                "key": "customDoc1",
+                "requiredField": false,
+                "fieldType": "text",
+                "displayName": "Cus Doc1",
+                "sequence": 0,
+                "groupBy": ""
+            }
+        ],
+        "txnMapping": [
+            {
+                "headData": [
+                    {
+                        "_id": "690c61e4d5ac310010652ea3",
+                        "admissionHead": "Slow Network Test",
+                        "headAmount": 1
+                    }
+                ],
+                "_id": "690c61e4d5ac310010652ea2",
+                "course": "Class 1",
+                "stream": "Class 1",
+                "amount": 1,
+                "amountEditable": false
+            }
+        ],
+        "entity": "5e95a8d3eac1df35dd2d007f",
+        "session": "2022-23",
+        "createdAt": "2024-05-23T07:40:29.814Z",
+        "updatedAt": "2025-12-16T15:34:42.431Z",
+        "__v": 0,
+        "txnRequired": true
+    },
+    {
+        "stageCounselor": [],
+        "saveZeroAmountTransaction": false,
+        "status": true,
+        "_id": "620f7260b525624a63fa329d",
+        "stage": "Registration",
+        "sequence": 1,
+        "fields": [
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206622",
+                "key": "dob",
+                "displayName": "Date of Birth",
+                "requiredField": false,
+                "fieldType": "date",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [
+                    "Male",
+                    "Female"
+                ],
+                "_id": "678e24221fcec8000f206621",
+                "key": "gender",
+                "displayName": "Gender",
+                "requiredField": false,
+                "fieldType": "selectBox",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206620",
+                "key": "phone",
+                "displayName": "Phone",
+                "requiredField": false,
+                "fieldType": "phone",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661f",
+                "key": "email",
+                "displayName": "Email",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661e",
+                "key": "address",
+                "displayName": "Address",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661d",
+                "key": "state",
+                "displayName": "State",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661c",
+                "key": "country",
+                "displayName": "Country",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661b",
+                "key": "pinCode",
+                "displayName": "Pin Code",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Address"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f20661a",
+                "key": "fatherName",
+                "displayName": "Father Name",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Parent Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206619",
+                "key": "motherName",
+                "displayName": "Mother Name",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Parent Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206618",
+                "key": "customField1",
+                "displayName": "Special Achiements",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Institute Info"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206617",
+                "key": "name",
+                "displayName": "Student Name",
+                "requiredField": false,
+                "fieldType": "toggle",
+                "sequence": 1,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206616",
+                "key": "fatherMobile",
+                "displayName": "Father Mobile",
+                "requiredField": false,
+                "fieldType": "phone",
+                "groupBy": "Parent Details"
+            },
+            {
+                "options": [],
+                "_id": "678e24221fcec8000f206615",
+                "key": "motherMobile",
+                "displayName": "Mother Mobile",
+                "requiredField": false,
+                "fieldType": "phone",
+                "groupBy": "Parent Details"
+            }
+        ],
+        "txnMapping": [
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cf1",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cf0",
+                "course": "Testing",
+                "stream": "Testing",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cef",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cee",
+                "course": "Class 1",
+                "stream": "Class 1",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ced",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cec",
+                "course": "nursery",
+                "stream": "nursery",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ceb",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cea",
+                "course": "Class 2",
+                "stream": "Class 2",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ce9",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373ce8",
+                "course": "LKG",
+                "stream": "LKG",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ce7",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373ce6",
+                "course": "Class 3",
+                "stream": "Class 3",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ce5",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373ce4",
+                "course": "Class 4",
+                "stream": "Class 4",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ce3",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373ce2",
+                "course": "Class 5",
+                "stream": "Class 5",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373ce1",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373ce0",
+                "course": "Class 6",
+                "stream": "Class 6",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cdf",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cde",
+                "course": "Class 8",
+                "stream": "Class 8",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cdd",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cdc",
+                "course": "class 9",
+                "stream": "class 9",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cdb",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cda",
+                "course": "TEST CLASS",
+                "stream": "TEST CLASS",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cd9",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cd8",
+                "course": "School of Computer Applications",
+                "stream": "BCA",
+                "amount": 10,
+                "amountEditable": true
+            },
+            {
+                "headData": [
+                    {
+                        "_id": "68681dafbd7762000f373cd7",
+                        "admissionHead": "Registration",
+                        "headAmount": 10
+                    }
+                ],
+                "_id": "68681dafbd7762000f373cd6",
+                "course": "School of Computer Applications",
+                "stream": "MCA",
+                "amount": 10,
+                "amountEditable": true
+            }
+        ],
+        "entity": "5e95a8d3eac1df35dd2d007f",
+        "session": "2022-23",
+        "createdAt": "2022-02-18T10:18:08.792Z",
+        "updatedAt": "2025-12-16T06:06:03.121Z",
+        "__v": 0,
+        "txnRequired": true,
+        "sendSMS": true,
+        "smsTemplate": "631ffce4b63abd2fe0f65c73",
+        "stageType": "application",
+        "sendWhatsApp": true
+    },
+    {
+        "stageCounselor": [],
+        "saveZeroAmountTransaction": false,
+        "status": true,
+        "_id": "674fde5cff4bef00125f78f8",
+        "stage": "Student",
+        "sequence": 3,
+        "fields": [
+            {
+                "options": [],
+                "_id": "68242eba58d5d1000f5f1c80",
+                "key": "name",
+                "displayName": "Student Name",
+                "requiredField": false,
+                "fieldType": "text",
+                "sequence": 1,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "68242eba58d5d1000f5f1c7f",
+                "key": "dob",
+                "displayName": "Date of Birth",
+                "requiredField": false,
+                "fieldType": "date",
+                "sequence": 3,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [
+                    "male",
+                    "female"
+                ],
+                "_id": "68242eba58d5d1000f5f1c7e",
+                "key": "gender",
+                "displayName": "Gender",
+                "requiredField": false,
+                "fieldType": "selectBox",
+                "sequence": 22,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "68242eba58d5d1000f5f1c7d",
+                "key": "uid",
+                "displayName": "Aadhar no.",
+                "requiredField": false,
+                "fieldType": "text",
+                "sequence": 4,
+                "groupBy": "Personal Details"
+            },
+            {
+                "options": [],
+                "_id": "68242eba58d5d1000f5f1c7c",
+                "key": "nationality",
+                "displayName": "Nationality",
+                "requiredField": false,
+                "fieldType": "text",
+                "groupBy": "Other Details"
+            },
+            {
+                "options": [
+                    "General",
+                    "OBC",
+                    "EWS"
+                ],
+                "_id": "68242eba58d5d1000f5f1c7b",
+                "key": "socialCategory",
+                "displayName": "Social Category",
+                "requiredField": false,
+                "fieldType": "selectBox",
+                "groupBy": "Other Details"
+            },
+            {
+                "options": [],
+                "_id": "694fab10d24af600106c74dc",
+                "key": "customDoc2",
+                "requiredField": false,
+                "fieldType": "file",
+                "displayName": "Doc 2",
+                "sequence": 0,
+                "groupBy": ""
+            }
+        ],
+        "txnMapping": [],
+        "entity": "5e95a8d3eac1df35dd2d007f",
+        "session": "2022-23",
+        "createdAt": "2024-12-04T04:45:16.563Z",
+        "updatedAt": "2025-12-27T09:46:56.925Z",
+        "__v": 0,
+        "stageType": "lead"
+    }
+]
+

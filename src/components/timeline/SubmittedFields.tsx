@@ -12,11 +12,11 @@ const SubmittedFields = ({ student }: any) => {
     ];
   
     return (
-      <div className="grid grid-cols-2 gap-4 text-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
         {fields.map(([label, value]) => (
-          <div key={label}>
+          <div key={label} className="break-words">
             <p className="text-gray-500">{label}</p>
-            <p className="font-medium">{value || "—"}</p>
+            <p className="font-medium break-words">{value || "—"}</p>
           </div>
         ))}
       </div>

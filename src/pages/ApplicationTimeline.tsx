@@ -31,15 +31,15 @@ const ApplicationTimeline = () => {
   }, []);
 
   if (loading) {
-    return <div className="p-6 text-gray-500">Loading timeline…</div>;
+    return <div className="p-4 sm:p-6 text-gray-500 text-sm sm:text-base">Loading timeline…</div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0]">
+    <div className="min-h-screen bg-[#FFF8F0] pb-20 sm:pb-24">
       <Header studentName={student?.name} />
 
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Application Timeline</h1>
+      <div className="p-3 sm:p-4 md:p-6">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Application Timeline</h1>
 
         {/* 🔥 LOGIC MOVED TO Timeline */}
         <Timeline stages={stages} student={student} />

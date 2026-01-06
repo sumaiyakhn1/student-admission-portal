@@ -55,11 +55,11 @@ const ApplicationOverview = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen space-y-6">
+    <div className="p-3 sm:p-4 md:p-6 bg-gray-50 min-h-screen space-y-4 sm:space-y-6">
 
       {/* 🔝 TOP BAR */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
           Application Overview
         </h1>
 
@@ -67,44 +67,44 @@ const ApplicationOverview = () => {
           onClick={handleLogout}
           className="
             flex items-center gap-2
-            text-sm font-semibold
+            text-xs sm:text-sm font-semibold
             text-red-600 hover:text-red-700
-            px-4 py-2 rounded-xl
+            px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl
             border border-red-200 hover:border-red-300
-            bg-white
+            bg-white w-full sm:w-auto
           "
         >
-          <LogOut size={18} />
-          Logout
+          <LogOut size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <span>Logout</span>
         </button>
       </div>
 
       {/* APPLICATION CARD */}
-      <div className="bg-white rounded-3xl shadow-lg p-6 space-y-5">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-6 space-y-4 sm:space-y-5">
 
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-sm text-gray-500">Application ID</p>
-            <p className="text-xl font-bold tracking-wide">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0">
+          <div className="flex-1">
+            <p className="text-xs sm:text-sm text-gray-500">Application ID</p>
+            <p className="text-lg sm:text-xl font-bold tracking-wide break-all">
               {student.applicationNumber}
             </p>
           </div>
 
-          <span className="px-4 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
+          <span className="px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold bg-blue-100 text-blue-700 whitespace-nowrap">
             Active
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-y-3 text-gray-700 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-4 text-gray-700 text-xs sm:text-sm">
           <Info label="Course" value={student.course} />
           <Info label="Stream" value={student.stream} />
           <Info label="Batch" value={student.batch} />
           <Info label="Session" value={student.session} />
         </div>
 
-        <div className="bg-gray-50 rounded-xl p-4">
-          <p className="text-sm text-gray-500 mb-1">Current Stage</p>
-          <p className="text-lg font-semibold text-gray-800">
+        <div className="bg-gray-50 rounded-xl p-3 sm:p-4">
+          <p className="text-xs sm:text-sm text-gray-500 mb-1">Current Stage</p>
+          <p className="text-base sm:text-lg font-semibold text-gray-800 break-words">
             {activeStage?.stage || student.currentStage || "—"}
           </p>
         </div>
@@ -112,10 +112,10 @@ const ApplicationOverview = () => {
         <button
           onClick={() => navigate("/application/timeline")}
           className="
-            w-full py-3
+            w-full py-2.5 sm:py-3
             bg-blue-600 hover:bg-blue-700
-            text-white text-lg font-semibold
-            rounded-2xl transition
+            text-white text-base sm:text-lg font-semibold
+            rounded-xl sm:rounded-2xl transition
           "
         >
           View Application →
@@ -129,8 +129,8 @@ export default ApplicationOverview;
 
 /* -------- Helper -------- */
 const Info = ({ label, value }: { label: string; value?: string }) => (
-  <div className="flex justify-between">
+  <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
     <span className="text-gray-500">{label}</span>
-    <span className="font-medium">{value || "—"}</span>
+    <span className="font-medium break-words text-right sm:text-left">{value || "—"}</span>
   </div>
 );

@@ -27,10 +27,10 @@ const Dashboard = () => {
   
 
   return (
-    <div className="bg-[#FFF8F0] min-h-screen">
+    <div className="bg-[#FFF8F0] min-h-screen pb-20 sm:pb-24">
       <Header studentName={studentData?.name || "Student"} />
 
-      <div className="p-6">
+      <div className="p-3 sm:p-4 md:p-6">
         {studentData && (
           <ApplicationCard
             student={studentData}

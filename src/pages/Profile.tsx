@@ -120,11 +120,11 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0]">
+    <div className="min-h-screen bg-[#FFF8F0] pb-20 sm:pb-24">
       <Header studentName={student.name} />
 
-      <div className="max-w-6xl mx-auto p-6 space-y-8">
-        <h1 className="text-2xl font-bold">Student Profile</h1>
+      <div className="max-w-6xl mx-auto p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6 md:space-y-8">
+        <h1 className="text-xl sm:text-2xl font-bold">Student Profile</h1>
 
         {Object.entries(GROUPS).map(([group, keys]) => {
           const visibleKeys = keys.filter((k) => student[k]);
@@ -134,23 +134,23 @@ const Profile = () => {
           return (
             <div
               key={group}
-              className="bg-white rounded-2xl border shadow-sm p-6"
+              className="bg-white rounded-xl sm:rounded-2xl border shadow-sm p-4 sm:p-5 md:p-6"
             >
-              <h2 className="text-lg font-semibold mb-4">{group}</h2>
+              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{group}</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                 {visibleKeys.map((key) => {
                   const k = String(key);
 
                   return (
                     <div
                       key={k}
-                      className="flex justify-between border rounded-lg px-4 py-2 bg-gray-50"
+                      className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0 border rounded-lg px-3 sm:px-4 py-2 bg-gray-50"
                     >
                       <span className="text-gray-600">
                         {formatLabel(k)}
                       </span>
-                      <span className="font-medium text-gray-900">
+                      <span className="font-medium text-gray-900 break-words text-right sm:text-left">
                         {formatValue(student[k])}
                       </span>
                     </div>

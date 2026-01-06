@@ -43,9 +43,9 @@ const StageCard = ({ stage, student }: any) => {
   const isCompleted = stage.status === "completed";
 
   return (
-    <div className="relative pl-8">
+    <div className="relative pl-6 sm:pl-8">
       {/* vertical line */}
-      <div className="absolute left-1 top-0 bottom-0 w-1 bg-gray-200" />
+      <div className="absolute left-0.5 sm:left-1 top-0 bottom-0 w-0.5 sm:w-1 bg-gray-200" />
 
       <StageHeader
         stage={stage}

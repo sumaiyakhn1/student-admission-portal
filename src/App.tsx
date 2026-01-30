@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import ApplicationTimeline from "./pages/ApplicationTimeline";
 import Payments from "./pages/Payments";
 import Profile from "./pages/Profile";
+import ApplicationDetails from "./pages/applications/ApplicationDetails"; 
 
 const isLoggedIn = () => {
   return sessionStorage.getItem("isLoggedIn") === "true";
@@ -40,10 +41,15 @@ export default function App() {
             )
           }
         />
+        <Route
+  path="/applications/:applicationId"
+  element={<ApplicationDetails />}
+/>
+
 
         {/* PAYMENTS */}
-        <Route
-          path="/payments"
+            <Route
+              path="/payments"
           element={isLoggedIn() ? <Payments /> : <Navigate to="/login" replace />}
         />
 

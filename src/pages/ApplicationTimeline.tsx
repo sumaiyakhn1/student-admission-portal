@@ -3,46 +3,77 @@ import Header from "../components/Header";
 import Timeline from "../components/timeline/Timeline";
 import { getStudentById } from "../services/studentService";
 import { getAdmissionStages } from "../services/stageService";
+import { saveAdmissionApplication } from "../services/admissionService";
 import FooterTabs from "../components/FooterTabs";
 
 const ApplicationTimeline = () => {
   const [student, setStudent] = useState<any>(null);
   const [stages, setStages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState<any>({});
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      try {
-        const [studentRes, stageRes] = await Promise.all([
-          getStudentById(),
-          getAdmissionStages(),
-        ]);
+      const [studentRes, stageRes] = await Promise.all([
+        getStudentById(),
+        getAdmissionStages(),
+      ]);
 
-        setStudent(studentRes.data || null);
-        setStages(stageRes.data || []);
-      } catch (e) {
-        console.error("Timeline load error", e);
-      } finally {
-        setLoading(false);
-      }
+      setStudent(studentRes.data);
+      setStages(stageRes.data);
     };
 
     load();
   }, []);
 
-  if (loading) {
-    return <div className="p-4 sm:p-6 text-gray-500 text-sm sm:text-base">Loading timeline…</div>;
-  }
+  const handleFieldChange = (key: string, value: any) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+
+      const payload = {
+        ...student,
+        ...formData,
+      };
+
+      await saveAdmissionApplication(payload);
+
+      setStudent(payload); // reflect saved data
+      setFormData({});
+      alert("Saved successfully");
+    } catch (e) {
+      console.error(e);
+      alert("Save failed");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!student) return <div className="p-6">Loading…</div>;
 
   return (
-    <div className="min-h-screen bg-[#FFF8F0] pb-20 sm:pb-24">
-      <Header studentName={student?.name} />
+    <div className="min-h-screen bg-[#FFF8F0] pb-24">
+      <Header studentName={student.name} />
 
-      <div className="p-3 sm:p-4 md:p-6">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Application Timeline</h1>
+      <div className="p-4">
+        <h1 className="text-xl font-bold mb-6">
+          Application Timeline
+        </h1>
 
-        {/* 🔥 LOGIC MOVED TO Timeline */}
-        <Timeline stages={stages} student={student} />
+        <Timeline
+          stages={stages}
+          student={student}
+          formData={formData}
+          onChange={handleFieldChange}
+          onSave={handleSave}
+          saving={saving}
+        />
       </div>
 
       <FooterTabs />

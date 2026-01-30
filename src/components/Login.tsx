@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useRef } from "react";
-import { sendOtp } from "../services/authService";
+import { sendOtp, verifyOtp } from "../services/authService";
 import toast from "react-hot-toast";
 import {
   GraduationCap,
@@ -70,23 +70,54 @@ export default function Login() {
     }
   };
 
-  /* ---------------- VERIFY OTP (UI GATE ONLY) ---------------- */
-  const handleVerifyOtp = () => {
+  /* ---------------- VERIFY OTP ---------------- */
+  const handleVerifyOtp = async () => {
     if (state.otp.length !== 6) {
       return toast.error("Enter 6-digit OTP");
     }
-
-    toast.success("Login Successful");
-
-    // ✅ UI login flag
-    sessionStorage.setItem("isLoggedIn", "true");
-
-    // ✅ Redirect to dashboard (NOT changing UI)
-    setTimeout(() => {
-      window.location.replace("/dashboard");
-    }, 600);
+  
+    try {
+      dispatch({ loading: true });
+  
+      const res = await verifyOtp(state.mobile, state.otp);
+  
+      console.log("✅ OTP VERIFY RESPONSE:", res);
+  
+      const data = res?.data || res;
+  
+      const token = data?.token;
+      if (!token) {
+        toast.error("Login failed: No token received");
+        return;
+      }
+  
+      // ✅ store token
+      sessionStorage.setItem("authToken", token);
+  
+      // ✅ store USER (Guest) data
+      sessionStorage.setItem(
+        "userProfile",
+        JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+        })
+      );
+  
+      sessionStorage.setItem("isLoggedIn", "true");
+  
+      toast.success("Login Successful");
+  
+      setTimeout(() => {
+        window.location.replace("/dashboard");
+      }, 600);
+    } catch (err) {
+      toast.error("Invalid OTP or verification failed");
+    } finally {
+      dispatch({ loading: false });
+    }
   };
-
+  
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-[Lato] bg-white relative overflow-hidden">
 

@@ -1,22 +1,38 @@
-// src/components/timeline/PaymentSummary.tsx
-const PaymentSummary = ({ student }: any) => {
-    if (!student.payment) {
-      return <p className="text-xs sm:text-sm text-gray-500">No payment recorded.</p>;
-    }
-  
+const PaymentSummary = ({ student, stage }: any) => {
+  const paymentsForStage =
+    student?.transactions?.filter((txn: any) =>
+      txn.stage?.trim().toLowerCase() ===
+      stage.stage?.trim().toLowerCase()
+    ) || [];
+
+  if (paymentsForStage.length === 0) {
     return (
-      <div className="space-y-2 text-xs sm:text-sm">
-        <p className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-          <span className="text-gray-600">Amount:</span>
-          <span className="font-semibold text-green-600">₹{student.payment.amount}</span>
-        </p>
-        <p className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-          <span className="text-gray-600">Status:</span>
-          <span className="font-semibold text-blue-600">{student.payment.status}</span>
-        </p>
-      </div>
+      <p className="text-xs sm:text-sm text-gray-500">
+        No payment recorded for this stage.
+      </p>
     );
-  };
-  
-  export default PaymentSummary;
-  
+  }
+
+  return (
+    <div className="space-y-2 text-xs sm:text-sm">
+      {paymentsForStage.map((txn: any) => (
+        <div
+          key={txn._id}
+          className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0 border rounded-lg px-3 py-2 bg-gray-50"
+        >
+          <span className="text-gray-600">
+            Receipt: {txn.receiptId}
+          </span>
+          <span className="font-semibold text-green-600">
+            ₹{txn.totalPaidAmount}
+          </span>
+          <span className="font-semibold text-blue-600">
+            {txn.status}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default PaymentSummary;

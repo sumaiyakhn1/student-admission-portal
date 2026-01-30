@@ -1,67 +1,100 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
-import { getStudentById } from "../services/studentService";
 import FooterTabs from "../components/FooterTabs";
+import { listAdmissionStudents } from "../services/admissionListService";
 
 const Payments = () => {
   const [payments, setPayments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("📌 Payments Page Loaded");
-
-    const fetchPayments = async () => {
-      console.log("📡 Fetching payment records...");
-
+    const loadPayments = async () => {
       try {
-        const res = await getStudentById();
-        console.log("📥 Full API Response:", res);
+        const res = await listAdmissionStudents();
+        const applications = res.data?.data || [];
 
-        const transactions = res.data?.transactions || [];
-        console.log("🧾 Transactions found:", transactions);
-        setPayments(transactions);
-        
-      } catch (err: any) {
-        console.log("❌ Payment API Error =>", err.response ? err.response.data : err);
+        // 🔥 FLATTEN PAYMENTS FROM ALL APPLICATIONS
+        const flattenedPayments = applications.flatMap((app: any) =>
+          (app.transactions || []).map((txn: any) => ({
+            studentName: app.name,
+            applicationNumber: app.applicationNumber,
+            stage: txn.stage,
+            receiptId: txn.receiptId,
+            amount: txn.totalPaidAmount,
+            status: txn.status,
+            date: txn.date,
+            applicationId: app._id,
+          }))
+        );
+
+        setPayments(flattenedPayments);
+      } catch (e) {
+        console.error("❌ Payment load error", e);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchPayments();
+    loadPayments();
   }, []);
 
   return (
-    <div className="bg-[#FFF8F0] min-h-screen p-3 sm:p-4 md:p-6 pb-20 sm:pb-24">
+    <div className="bg-[#FFF8F0] min-h-screen p-4 pb-24">
       <Header studentName="Payments" />
 
-      <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 mt-2">Payment History</h2>
+      <h2 className="text-xl font-bold mb-4 mt-2">
+        Payment History
+      </h2>
 
-      {payments.length === 0 ? (
-        <p className="text-sm sm:text-base text-gray-500">No payment records found.</p>
+      {loading ? (
+        <p className="text-gray-500">Loading payments…</p>
+      ) : payments.length === 0 ? (
+        <p className="text-gray-500">No payment records found.</p>
       ) : (
-        <div className="space-y-3 sm:space-y-4">
-          {payments.map((txn, index) => (
-            <div key={index} className="bg-white p-3 sm:p-4 rounded-xl shadow-md border">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-sm sm:text-base">
-                <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-                  <span className="text-gray-600 font-medium">Receipt ID:</span>
-                  <span className="font-semibold break-all text-right sm:text-left">{txn.receiptId}</span>
+        <div className="space-y-3">
+          {payments.map((p, i) => (
+            <div
+              key={i}
+              className="bg-white p-4 rounded-xl shadow border text-sm"
+            >
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <span className="text-gray-500">Student</span>
+                  <p className="font-semibold">{p.studentName}</p>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-                  <span className="text-gray-600 font-medium">Amount Paid:</span>
-                  <span className="font-semibold text-green-600">₹{txn.totalPaidAmount}</span>
+
+                <div>
+                  <span className="text-gray-500">Application</span>
+                  <p className="font-semibold">{p.applicationNumber}</p>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-                  <span className="text-gray-600 font-medium">Status:</span>
-                  <span className="font-semibold text-blue-600">{txn.status}</span>
+
+                <div>
+                  <span className="text-gray-500">Stage</span>
+                  <p>{p.stage}</p>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-between gap-1 sm:gap-0">
-                  <span className="text-gray-600 font-medium">Date:</span>
-                  <span className="text-gray-700">{new Date(txn.date).toLocaleDateString()}</span>
+
+                <div>
+                  <span className="text-gray-500">Amount</span>
+                  <p className="font-semibold text-green-600">
+                    ₹{p.amount}
+                  </p>
+                </div>
+
+                <div>
+                  <span className="text-gray-500">Status</span>
+                  <p className="text-blue-600">{p.status}</p>
+                </div>
+
+                <div>
+                  <span className="text-gray-500">Date</span>
+                  <p>{new Date(p.date).toLocaleDateString()}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       )}
+
       <FooterTabs />
     </div>
   );

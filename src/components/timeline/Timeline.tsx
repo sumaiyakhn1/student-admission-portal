@@ -1,49 +1,52 @@
-// src/components/timeline/Timeline.tsx
 import StageCard from "./StageCard";
 
 interface Props {
   stages: any[];
   student: any;
+  formData: any;
+  onChange: (key: string, value: any) => void;
+  onSave: () => void;
+  saving?: boolean; // ✅ optional
 }
 
-const Timeline = ({ stages, student }: Props) => {
-  // 1️⃣ Sort stages by sequence
+const Timeline = ({
+  stages,
+  student,
+  formData,
+  onChange,
+  onSave,
+  saving,
+}: Props) => {
   const orderedStages = [...stages].sort(
     (a, b) => a.sequence - b.sequence
   );
 
-  // 2️⃣ Find current stage sequence using student.currentStage
-  const currentStageName = student?.currentStage;
-
   const currentStageObj = orderedStages.find(
-    (s) => s.stage === currentStageName
+    (s) => s.stage === student.currentStage
   );
 
-  const currentSequence = currentStageObj?.sequence ?? 0;
+  const currentSeq = currentStageObj?.sequence ?? 0;
 
-  // 3️⃣ Assign status based on sequence
   const enrichedStages = orderedStages.map((stage) => {
     let status: "completed" | "active" | "pending" = "pending";
 
-    if (stage.sequence < currentSequence) {
-      status = "completed";
-    } else if (stage.sequence === currentSequence) {
-      status = "active";
-    }
+    if (stage.sequence < currentSeq) status = "completed";
+    else if (stage.sequence === currentSeq) status = "active";
 
-    return {
-      ...stage,
-      status,
-    };
+    return { ...stage, status };
   });
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-6">
       {enrichedStages.map((stage) => (
         <StageCard
           key={stage._id}
           stage={stage}
           student={student}
+          formData={formData}
+          onChange={onChange}
+          onSave={onSave}
+          saving={saving}
         />
       ))}
     </div>

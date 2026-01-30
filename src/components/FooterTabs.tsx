@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { FileText, CreditCard, HelpCircle, User } from "lucide-react";
+import { FileText, CreditCard, User } from "lucide-react";
 
 const FooterTabs = () => {
   const navigate = useNavigate();

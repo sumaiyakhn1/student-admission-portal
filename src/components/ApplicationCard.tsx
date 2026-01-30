@@ -1,9 +1,6 @@
 import {
   ArrowRight,
   BadgeCheck,
-  BookOpen,
-  GraduationCap,
-  Layers,
   ClipboardList,
   User,
   Phone,
@@ -33,7 +30,7 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ student, onView }) =>
       {/* -------------------------------- */}
       <div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" /> 
+          <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
           <span>Application Summary</span>
         </h2>
 
@@ -47,13 +44,13 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ student, onView }) =>
       {/* -------------------------------- */}
       <div className="bg-white/50 backdrop-blur-md p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl shadow-sm border border-white/40">
         <h3 className="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2 mb-3 sm:mb-4">
-          <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" /> 
+          <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
           <span>Applicant Details</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 sm:gap-y-3 gap-x-4 text-gray-700 text-sm sm:text-base">
           <p className="flex items-start sm:items-center gap-2 break-words">
-            <User size={16} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-orange-500 flex-shrink-0 mt-0.5 sm:mt-0" /> 
+            <User size={16} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-orange-500 flex-shrink-0 mt-0.5 sm:mt-0" />
             <span><span className="font-semibold">Name:</span> {student.name}</span>
           </p>
 
@@ -92,24 +89,24 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ student, onView }) =>
         <span className="px-3 sm:px-4 py-1 sm:py-1.5 bg-orange-100 text-orange-700 rounded-full text-xs sm:text-sm font-semibold tracking-wide break-words">
           {student.currentStage}
         </span>
-        
+
       </div>
 
       {/* -------------------------------- */}
       {/* CTA BUTTON */}
       {/* -------------------------------- */}
       <button
-  onClick={onView}
-  className="
+        onClick={onView}
+        className="
     w-full py-2.5 sm:py-3 mt-2
     bg-orange-500 hover:bg-orange-600
     text-white font-semibold rounded-xl sm:rounded-2xl
     text-center text-base sm:text-lg flex justify-center items-center gap-2
     shadow-md hover:shadow-lg transition-all
   "
->
-  View Application <ArrowRight size={18} className="sm:w-5 sm:h-5" />
-</button>
+      >
+        View Application <ArrowRight size={18} className="sm:w-5 sm:h-5" />
+      </button>
 
 
     </div>

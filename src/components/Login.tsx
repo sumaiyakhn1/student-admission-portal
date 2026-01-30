@@ -75,25 +75,25 @@ export default function Login() {
     if (state.otp.length !== 6) {
       return toast.error("Enter 6-digit OTP");
     }
-  
+
     try {
       dispatch({ loading: true });
-  
+
       const res = await verifyOtp(state.mobile, state.otp);
-  
+
       console.log("✅ OTP VERIFY RESPONSE:", res);
-  
+
       const data = res?.data || res;
-  
+
       const token = data?.token;
       if (!token) {
         toast.error("Login failed: No token received");
         return;
       }
-  
+
       // ✅ store token
       sessionStorage.setItem("authToken", token);
-  
+
       // ✅ store USER (Guest) data
       sessionStorage.setItem(
         "userProfile",
@@ -103,11 +103,11 @@ export default function Login() {
           phone: data.phone,
         })
       );
-  
+
       sessionStorage.setItem("isLoggedIn", "true");
-  
+
       toast.success("Login Successful");
-  
+
       setTimeout(() => {
         window.location.replace("/dashboard");
       }, 600);
@@ -117,7 +117,7 @@ export default function Login() {
       dispatch({ loading: false });
     }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-[Lato] bg-white relative overflow-hidden">
 
@@ -158,11 +158,10 @@ export default function Login() {
 
             {/* MOBILE INPUT */}
             <div
-              className={`absolute w-full transition-all duration-500 ${
-                state.step === "mobile"
+              className={`absolute w-full transition-all duration-500 ${state.step === "mobile"
                   ? "translate-x-0"
                   : "-translate-x-[120%]"
-              }`}
+                }`}
             >
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-[#F68B1E]">
                 Login
@@ -192,11 +191,10 @@ export default function Login() {
 
             {/* OTP INPUT */}
             <div
-              className={`absolute w-full transition-all duration-500 ${
-                state.step === "otp"
+              className={`absolute w-full transition-all duration-500 ${state.step === "otp"
                   ? "translate-x-0"
                   : "translate-x-[120%]"
-              }`}
+                }`}
             >
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-[#F68B1E]">
                 Verify OTP

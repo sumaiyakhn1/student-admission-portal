@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PaymentSummary from "./PaymentSummary";
+import PayNowButton from "./PayNowButton";
 
 /**
  * Helper: checks if value exists (for display only)
@@ -72,8 +73,12 @@ const StageDetails = ({
   onChange,
   onSave,
   saving,
+  onStudentRefresh,
 }: any) => {
   const [editMode, setEditMode] = useState(false);
+  const handlePaymentSuccess = useCallback(() => {
+    onStudentRefresh?.();
+  }, [onStudentRefresh]);
 
   const isActiveStage = stage.status === "active";
   const fields: any[] = stage.fields || [];
@@ -198,6 +203,15 @@ const StageDetails = ({
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           {(grouped[safeTab] || []).map(renderField)}
         </div>
+
+        {/* ================= PAY NOW (active stage only) ================= */}
+        {isActiveStage && (
+          <PayNowButton
+            stage={stage}
+            student={student}
+            onPaymentSuccess={handlePaymentSuccess}
+          />
+        )}
 
         {/* ================= PAYMENT SUMMARY ================= */}
         {student?.transactions?.length > 0 && (

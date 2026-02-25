@@ -9,6 +9,7 @@ const StageCard = ({
   onChange,
   onSave,
   saving,
+  onStudentRefresh,
 }: any) => {
   const [open, setOpen] = useState(false);
 
@@ -32,6 +33,7 @@ const StageCard = ({
           onChange={onChange}
           onSave={onSave}
           saving={saving}
+          onStudentRefresh={onStudentRefresh}
         />
       )}
     </div>

@@ -5,9 +5,6 @@ const ODPAY_BASE = "https://api.okiedokiepay.com";
 export const ERP_ENTITY_ID = "698c2eed0ddb62000fef6822";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-const getStudentToken = (): string =>
-  sessionStorage.getItem("authToken") || "";
-
 const getToken = (): string =>
   sessionStorage.getItem("token") || "";
 

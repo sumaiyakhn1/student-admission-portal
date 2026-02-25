@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Lock as LockIcon, ShieldAlert, CheckCircle2, Upload, FileText, Loader2 } from "lucide-react";
+import { Lock as LockIcon, ShieldAlert, CheckCircle2, Upload, FileText, Loader2, Eye, Trash2 } from "lucide-react";
 import PaymentSummary from "./PaymentSummary";
 import VerificationGate from "../VerificationGate";
-import { uploadFile, uploadDocument } from "../../services/uploadService";
+import { uploadDocument } from "../../services/uploadService";
 import toast from "react-hot-toast";
 import PayNowButton from "./PayNowButton";
 
@@ -176,27 +176,61 @@ const StageDetails = ({
                 id={`file-${field.key}`}
                 onChange={(e) => handleFileChange(field.key, e)}
               />
-              <label
-                htmlFor={`file-${field.key}`}
-                className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-4 transition-all cursor-pointer min-h-[100px] text-center
+              {value ? (
+                <div className={`relative flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-2 transition-all min-h-[120px] text-center bg-gray-50 border-orange-200 group-hover:border-orange-400`}>
+                  {uploadingFields[field.key] ? (
+                    <Loader2 className="animate-spin text-orange-500" size={24} />
+                  ) : (
+                    <>
+                      {/* Preview Logic */}
+                      {(field.key.toLowerCase().includes("photo") || field.key.toLowerCase().includes("signature") || value.match(/\.(jpg|jpeg|png|gif|webp)$/i)) ? (
+                        <div className="relative w-full h-[60px] flex justify-center mb-1">
+                          <img src={value} alt={field.displayName} className="h-full object-contain rounded-md shadow-sm border border-gray-100 bg-white" />
+                        </div>
+                      ) : (
+                        <FileText size={32} className="text-orange-400 mb-1" />
+                      )}
+
+                      <div className="flex items-center gap-2 mt-1">
+                        <a
+                          href={value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 bg-white border border-gray-100 text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-all shadow-sm"
+                          title="View"
+                        >
+                          <Eye size={14} />
+                        </a>
+                        <label
+                          htmlFor={`file-${field.key}`}
+                          className="p-1.5 bg-white border border-gray-100 text-gray-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-all shadow-sm cursor-pointer"
+                          title="Replace"
+                        >
+                          <Upload size={14} />
+                        </label>
+                      </div>
+                      <span className="text-[9px] text-gray-400 mt-1 uppercase font-bold tracking-wider truncate max-w-full px-2">Uploaded</span>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <label
+                  htmlFor={`file-${field.key}`}
+                  className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-4 transition-all cursor-pointer min-h-[120px] text-center
                   ${uploadingFields[field.key] ? "bg-orange-50 border-orange-300" : "bg-white border-gray-200 hover:border-orange-400 hover:bg-orange-50"}`}
-              >
-                {uploadingFields[field.key] ? (
-                  <Loader2 className="animate-spin text-orange-500" size={24} />
-                ) : value ? (
-                  <div className="flex flex-col items-center gap-1">
-                    <CheckCircle2 className="text-green-500" size={24} />
-                    <span className="text-[10px] text-gray-500 truncate max-w-[100px] font-bold">Replace File</span>
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="text-gray-300 group-hover:text-orange-500 transition-colors mb-2" size={24} />
-                    <span className="text-[10px] text-gray-400 group-hover:text-orange-600 transition-colors uppercase font-bold tracking-wider">
-                      Click to Upload
-                    </span>
-                  </>
-                )}
-              </label>
+                >
+                  {uploadingFields[field.key] ? (
+                    <Loader2 className="animate-spin text-orange-500" size={24} />
+                  ) : (
+                    <>
+                      <Upload className="text-gray-300 group-hover:text-orange-500 transition-colors mb-2" size={24} />
+                      <span className="text-[10px] text-gray-400 group-hover:text-orange-600 transition-colors uppercase font-bold tracking-wider">
+                        Click to Upload
+                      </span>
+                    </>
+                  )}
+                </label>
+              )}
             </div>
           ) : field.fieldType === "selectBox" ? (
             <select
@@ -226,25 +260,41 @@ const StageDetails = ({
             />
           )
         ) : (
-          <div
-            className={`border rounded-lg px-3 py-2 text-sm min-h-[38px] flex items-center justify-between ${editMode && isLocked ? "bg-gray-100/50 text-gray-500 border-dashed" : "bg-gray-50 text-gray-700"
-              }`}
-          >
-            <span className="truncate flex-1">
-              {isFilled(value) ? (field.fieldType === "date" && typeof value === "string" ? value.slice(0, 10) : value) : "-"}
-            </span>
-            {(safeTab === "Upload doc" || field.fieldType === "FILE") && isFilled(value) && (
-              <a
-                href={value}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-2 text-orange-600 hover:text-orange-700 p-1.5 hover:bg-orange-100 rounded-lg transition-all"
-                title="View Document"
-              >
-                <FileText size={16} />
-              </a>
-            )}
-          </div>
+          (safeTab === "Upload doc" || field.fieldType === "FILE") ? (
+            <div className={`relative flex flex-col items-center justify-center border rounded-xl p-2 transition-all min-h-[120px] text-center ${editMode && isLocked ? "bg-gray-100/30 border-gray-200 border-dashed" : "bg-gray-50 border-gray-100"}`}>
+              {isFilled(value) ? (
+                <>
+                  {(field.key.toLowerCase().includes("photo") || field.key.toLowerCase().includes("signature") || (typeof value === 'string' && value.match(/\.(jpg|jpeg|png|gif|webp)$/i))) ? (
+                    <div className="relative w-full h-[60px] flex justify-center mb-1">
+                      <img src={value} alt={field.displayName} className="h-full object-contain rounded-md shadow-sm border border-gray-100 bg-white" />
+                    </div>
+                  ) : (
+                    <FileText size={32} className="text-gray-300 mb-1" />
+                  )}
+                  <a
+                    href={value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 p-1.5 bg-white border border-gray-100 text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-all shadow-sm"
+                    title="View Document"
+                  >
+                    <Eye size={14} />
+                  </a>
+                </>
+              ) : (
+                <span className="text-gray-300 text-[10px] font-bold uppercase">No Document</span>
+              )}
+            </div>
+          ) : (
+            <div
+              className={`border rounded-lg px-3 py-2 text-sm min-h-[38px] flex items-center justify-between ${editMode && isLocked ? "bg-gray-100/50 text-gray-500 border-dashed" : "bg-gray-50 text-gray-700"
+                }`}
+            >
+              <span className="truncate flex-1">
+                {isFilled(value) ? (field.fieldType === "date" && typeof value === "string" ? value.slice(0, 10) : value) : "-"}
+              </span>
+            </div>
+          )
         )}
       </div>
     );

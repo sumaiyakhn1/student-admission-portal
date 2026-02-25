@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import {
   getEntityForERP,
-  searchStudent,
   recentPaymentCheck,
   initiateTxn,
   processPayment,

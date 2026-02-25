@@ -37,8 +37,7 @@ export const uploadDocument = async (file: File, studentId: string, fieldName: s
     });
 
     // Step 3: Notify ERP / Save Document
-    const finalData:any = new FormData();
-    let formData = {
+    const formData = {
         presignedKey: true,
         [fieldName]: publicURL
     }

@@ -6,7 +6,8 @@ interface Props {
   formData: any;
   onChange: (key: string, value: any) => void;
   onSave: () => void;
-  saving?: boolean; // ✅ optional
+  saving?: boolean;
+  onStudentRefresh?: () => void;
 }
 
 const Timeline = ({
@@ -16,6 +17,7 @@ const Timeline = ({
   onChange,
   onSave,
   saving,
+  onStudentRefresh,
 }: Props) => {
   const orderedStages = [...stages].sort(
     (a, b) => a.sequence - b.sequence
@@ -47,6 +49,7 @@ const Timeline = ({
           onChange={onChange}
           onSave={onSave}
           saving={saving}
+          onStudentRefresh={onStudentRefresh}
         />
       ))}
     </div>

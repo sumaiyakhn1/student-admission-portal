@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Timeline from "../components/timeline/Timeline";
 import { getStudentById } from "../services/studentService";
@@ -12,18 +12,23 @@ const ApplicationTimeline = () => {
   const [formData, setFormData] = useState<any>({});
   const [saving, setSaving] = useState(false);
 
+  const loadData = async () => {
+    const [studentRes, stageRes] = await Promise.all([
+      getStudentById(),
+      getAdmissionStages(),
+    ]);
+    setStudent(studentRes.data);
+    setStages(stageRes.data);
+  };
+
   useEffect(() => {
-    const load = async () => {
-      const [studentRes, stageRes] = await Promise.all([
-        getStudentById(),
-        getAdmissionStages(),
-      ]);
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      setStudent(studentRes.data);
-      setStages(stageRes.data);
-    };
-
-    load();
+  const handleStudentRefresh = useCallback(() => {
+    // Re-fetch student after a successful payment to update PaymentSummary
+    getStudentById().then((res) => setStudent(res.data)).catch(console.error);
   }, []);
 
   const handleFieldChange = (key: string, value: any) => {
@@ -36,15 +41,9 @@ const ApplicationTimeline = () => {
   const handleSave = async () => {
     try {
       setSaving(true);
-
-      const payload = {
-        ...student,
-        ...formData,
-      };
-
+      const payload = { ...student, ...formData };
       await saveAdmissionApplication(payload);
-
-      setStudent(payload); // reflect saved data
+      setStudent(payload);
       setFormData({});
       alert("Saved successfully");
     } catch (e) {
@@ -80,6 +79,7 @@ const ApplicationTimeline = () => {
           onChange={handleFieldChange}
           onSave={handleSave}
           saving={saving}
+          onStudentRefresh={handleStudentRefresh}
         />
       </div>
 

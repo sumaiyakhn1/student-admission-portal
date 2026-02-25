@@ -86,10 +86,10 @@ const Payments = () => {
                 >
                   {/* Top row: Amount + Status */}
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <IndianRupee size={16} className="text-emerald-600" />
                       <span className="text-lg font-bold text-gray-900">
-                        ₹{p.amount}
+                        {p.amount}
                       </span>
                     </div>
                     <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold border ${colorClass}`}>

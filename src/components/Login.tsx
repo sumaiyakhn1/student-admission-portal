@@ -91,9 +91,12 @@ export default function Login() {
         JSON.stringify({
           name: data.name || "User",
           email: data.email || "",
-          phone: state.mobile, // Ensure mobile is stored for admission list search
+          phone: data.phone,
+          _id: data._id,
         })
       );
+      
+      sessionStorage.setItem("token", data.token);
 
       // ✅ 2. Perform PORTAL LOGIN (Background) to get Master Token
       console.log("🔄 Attempting Portal Login...");

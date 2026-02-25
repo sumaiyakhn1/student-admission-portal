@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Lock as LockIcon, ShieldAlert, CheckCircle2, Upload, FileText, Loader2 } from "lucide-react";
 import PaymentSummary from "./PaymentSummary";
 import VerificationGate from "../VerificationGate";
@@ -30,12 +30,22 @@ const StageDetails = ({
     value: string;
   }>({ open: false, type: "Father Mobile", value: "" });
 
-  // Verification State (In a real app, this should come from the API/Session)
-  const [verifiedStatus, setVerifiedStatus] = useState({
-    fatherMobile: false,
-    motherMobile: false,
-    email: false,
+  // Verification State persists in localStorage tied to student ID
+  const storageKey = `verifiedStatus_${student?._id || "default"}`;
+  const [verifiedStatus, setVerifiedStatus] = useState(() => {
+    if (typeof window === "undefined") return { fatherMobile: false, motherMobile: false, email: false };
+    const saved = localStorage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : {
+      fatherMobile: false,
+      motherMobile: false,
+      email: false,
+    };
   });
+
+  // Sync to localStorage
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(verifiedStatus));
+  }, [verifiedStatus, storageKey]);
 
   const [uploadingFields, setUploadingFields] = useState<Record<string, boolean>>({});
 
@@ -92,9 +102,9 @@ const StageDetails = ({
   };
 
   const onVerified = (type: string) => {
-    if (type === "Father Mobile") setVerifiedStatus(p => ({ ...p, fatherMobile: true }));
-    if (type === "Mother Mobile") setVerifiedStatus(p => ({ ...p, motherMobile: true }));
-    if (type === "Email") setVerifiedStatus(p => ({ ...p, email: true }));
+    if (type === "Father Mobile") setVerifiedStatus((p: any) => ({ ...p, fatherMobile: true }));
+    if (type === "Mother Mobile") setVerifiedStatus((p: any) => ({ ...p, motherMobile: true }));
+    if (type === "Email") setVerifiedStatus((p: any) => ({ ...p, email: true }));
     // Don't close immediately here, the Gate handles switching. 
     // If all are verified, Gate might stay open or close.
   };

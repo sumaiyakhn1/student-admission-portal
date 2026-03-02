@@ -219,12 +219,14 @@ const VerificationGate: React.FC<VerificationGateProps> = ({
                                 )}
                             </button>
 
-                            <button
-                                onClick={handleSkip}
-                                className="w-full mt-3 py-3 text-orange-600 font-bold text-sm hover:bg-orange-50 rounded-xl transition-all uppercase tracking-wider"
-                            >
-                                Skip for now
-                            </button>
+                            {currentItem.type === "Email" && (
+                                <button
+                                    onClick={handleSkip}
+                                    className="w-full mt-3 py-3 text-orange-600 font-bold text-sm hover:bg-orange-50 rounded-xl transition-all uppercase tracking-wider"
+                                >
+                                    Skip for now
+                                </button>
+                            )}
 
                             <p className="mt-4 text-[11px] text-gray-400 uppercase font-bold tracking-widest text-center">
                                 Secure Verification Powered by OkieDokie
@@ -299,12 +301,14 @@ const VerificationGate: React.FC<VerificationGateProps> = ({
                                         >
                                             {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
                                         </button>
-                                        <button
-                                            onClick={handleSkip}
-                                            className="text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider"
-                                        >
-                                            Skip for now
-                                        </button>
+                                        {currentItem.type === "Email" && (
+                                            <button
+                                                onClick={handleSkip}
+                                                className="text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider"
+                                            >
+                                                Skip for now
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>

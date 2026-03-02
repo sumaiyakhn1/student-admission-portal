@@ -30,7 +30,11 @@ const ApplicationOverview = () => {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    localStorage.clear();
+    Object.keys(localStorage).forEach((key) => {
+      if (!key.startsWith("verifiedStatus_")) {
+        localStorage.removeItem(key);
+      }
+    });
     window.location.href = "/login";
   };
 

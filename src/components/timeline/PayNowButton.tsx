@@ -40,8 +40,15 @@ const PayNowButton = ({ stage, student, onPaymentSuccess }: Props) => {
   const resolved = stageSetup ? resolveTxnAmount(stageSetup, student) : null;
   const amount: number = resolved?.amount ?? 0;
 
-  // Hide button if stage is loaded but nothing to pay
-  if (fetchError || (stageSetup && amount <= 0)) return null;
+  // Check if already paid
+  const isAlreadyPaid = student?.transactions?.some(
+    (tx: any) =>
+      tx.status?.toLowerCase() === "confirmed" &&
+      tx.stage?.trim().toLowerCase() === stage.stage?.trim().toLowerCase()
+  );
+
+  // Hide button if stage is loaded but nothing to pay, OR if already paid
+  if (fetchError || isAlreadyPaid || (stageSetup && amount <= 0)) return null;
 
   // ── Success state ────────────────────────────────────────────────────────────
   if (status === "success" && paymentResult) {

@@ -168,7 +168,7 @@ const StageDetails = ({
         </div>
 
         {editMode && isActiveStage && !isLocked ? (
-          (safeTab === "Upload doc" || field.fieldType === "FILE") ? (
+          (field.fieldType?.toUpperCase() === "FILE") ? (
             <div className="relative group">
               <input
                 type="file"
@@ -260,7 +260,7 @@ const StageDetails = ({
             />
           )
         ) : (
-          (safeTab === "Upload doc" || field.fieldType === "FILE") ? (
+          (field.fieldType?.toUpperCase() === "FILE") ? (
             <div className={`relative flex flex-col items-center justify-center border rounded-xl p-2 transition-all min-h-[120px] text-center ${editMode && isLocked ? "bg-gray-100/30 border-gray-200 border-dashed" : "bg-gray-50 border-gray-100"}`}>
               {isFilled(value) ? (
                 <>

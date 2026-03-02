@@ -381,6 +381,11 @@ const StageDetails = ({
         )}
 
         {/* ================= FIELDS (active tab only) ================= */}
+        {visibleTabs.length > 0 && (
+          <h4 className="text-sm font-bold text-gray-800 uppercase tracking-wide mb-3 px-1">
+            {safeTab}
+          </h4>
+        )}
         <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3">
           {(grouped[safeTab] || []).map(renderField)}
         </div>

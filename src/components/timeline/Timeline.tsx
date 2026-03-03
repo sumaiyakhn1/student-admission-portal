@@ -1,4 +1,5 @@
 import StageCard from "./StageCard";
+import ApplicationFormCard from "./ApplicationFormCard";
 
 interface Props {
   stages: any[];
@@ -40,6 +41,9 @@ const Timeline = ({
 
   return (
     <div className="space-y-6">
+      {/* Download Application Form (Always at the top) */}
+      <ApplicationFormCard student={student} />
+
       {enrichedStages.map((stage) => (
         <StageCard
           key={stage._id}

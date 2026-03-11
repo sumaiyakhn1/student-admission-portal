@@ -20,7 +20,7 @@ const isFatherMobileField = (field: any) => {
   const name = String(field.displayName || "").toLowerCase();
 
   const combined = (key + " " + name).replace(/_/g, " ").replace(/-/g, " ");
-  const hasParent = combined.includes("father") || combined.includes("parent") || combined.includes("guardian");
+  const hasParent = combined.includes("father") || combined.includes("parent");
   const hasContact = combined.includes("mobile") || combined.includes("phone") || combined.includes("number") ||
     combined.includes("contact") || combined.includes("cell") || combined.includes("no");
 

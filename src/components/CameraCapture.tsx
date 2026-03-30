@@ -9,7 +9,6 @@ interface CameraCaptureProps {
 }
 
 const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onClose, title }) => {
-  const [stream, setStream] = useState<MediaStream | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -69,7 +68,6 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onClose, title
         });
       }
 
-      setStream(newStream);
       currentStreamRef.current = newStream;
       
       if (videoRef.current) {
@@ -145,7 +143,6 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({ onCapture, onClose, title
     if (currentStreamRef.current) {
       currentStreamRef.current.getTracks().forEach(track => track.stop());
       currentStreamRef.current = null;
-      setStream(null);
     }
   };
 

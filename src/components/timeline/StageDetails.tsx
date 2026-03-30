@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { Lock as LockIcon, Upload, FileText, Loader2, Eye } from "lucide-react";
+import { Lock as LockIcon, Upload, FileText, Loader2, Eye, Camera } from "lucide-react";
 import PaymentSummary from "./PaymentSummary";
 import VerificationGate from "../VerificationGate";
+import CameraCapture from "../CameraCapture";
 import { uploadDocument } from "../../services/uploadService";
 import toast from "react-hot-toast";
 import PayNowButton from "./PayNowButton";
@@ -45,6 +46,12 @@ const StageDetails = ({
     value: string;
   }>({ open: false, type: "Father Mobile", value: "" });
 
+  const [showCamera, setShowCamera] = useState<{
+    open: boolean;
+    key: string;
+    title: string;
+  }>({ open: false, key: "", title: "" });
+
   // Verification State persists in localStorage tied to student ID
   const storageKey = `verifiedStatus_${student?._id || "default"}`;
   const [verifiedStatus, setVerifiedStatus] = useState(() => {
@@ -62,8 +69,8 @@ const StageDetails = ({
 
   const [uploadingFields, setUploadingFields] = useState<Record<string, boolean>>({});
 
-  const handleFileChange = async (key: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFileChange = async (key: string, e?: React.ChangeEvent<HTMLInputElement>, directFile?: File) => {
+    const file = directFile || e?.target.files?.[0];
     if (!file) return;
 
     // File Size Check: 5MB limit
@@ -167,6 +174,14 @@ const StageDetails = ({
     const hasEdited = Object.prototype.hasOwnProperty.call(formData, field.key);
     const value = hasEdited ? formData[field.key] : original;
 
+    const fKey = String(field.key || "").toLowerCase();
+    const fName = String(field.displayName || "").toLowerCase();
+    const fCombined = (fKey + " " + fName).toLowerCase();
+
+    const isPhone = fCombined.includes("phone") || fCombined.includes("mobile") || fCombined.includes("contact") || fCombined.includes("cell");
+    const isAadhar = fCombined.includes("aadhar") || fCombined.includes("adhar") || fCombined.includes("aadhaar") || fCombined.includes("uid");
+
+
     if (isFatherMobileField(field)) {
       console.log("Checking Father Mobile Field:", { key: field.key, name: field.displayName, verified: verifiedStatus.fatherMobile, value });
     }
@@ -182,7 +197,15 @@ const StageDetails = ({
     const isLocked = isFilled(original) && ((isPersonalGroup && isLockableKey) || isFatherMobileField(field));
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      onChange(field.key, e.target.value);
+      let val = e.target.value;
+
+      if (isPhone) {
+        val = val.replace(/\D/g, "").slice(0, 10);
+      } else if (isAadhar) {
+        val = val.replace(/\D/g, "").slice(0, 12);
+      }
+
+      onChange(field.key, val);
     };
 
     return (
@@ -217,7 +240,7 @@ const StageDetails = ({
                   ) : (
                     <>
                       {/* Preview Logic */}
-                      {(field.key.toLowerCase().includes("photo") || field.key.toLowerCase().includes("signature") || value.match(/\.(jpg|jpeg|png|gif|webp)$/i)) ? (
+                      {(field.key.toLowerCase().includes("photo") || field.key.toLowerCase().includes("signature") || (typeof value === 'string' && value.match(/\.(jpg|jpeg|png|gif|webp)$/i))) ? (
                         <div className="relative w-full h-[60px] flex justify-center mb-1">
                           <img src={value} alt={field.displayName} className="h-full object-contain rounded-md shadow-sm border border-gray-100 bg-white" />
                         </div>
@@ -242,28 +265,55 @@ const StageDetails = ({
                         >
                           <Upload size={14} />
                         </label>
+                        <button
+                          type="button"
+                          onClick={() => setShowCamera({ open: true, key: field.key, title: field.displayName })}
+                          className="p-1.5 bg-white border border-gray-100 text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-all shadow-sm"
+                          title="Camera"
+                        >
+                          <Camera size={14} />
+                        </button>
                       </div>
                       <span className="text-[9px] text-gray-400 mt-1 uppercase font-bold tracking-wider truncate max-w-full px-2">Uploaded</span>
                     </>
                   )}
                 </div>
               ) : (
-                <label
-                  htmlFor={`file-${field.key}`}
-                  className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-4 transition-all cursor-pointer min-h-[120px] text-center
-                  ${uploadingFields[field.key] ? "bg-orange-50 border-orange-300" : "bg-white border-gray-200 hover:border-orange-400 hover:bg-orange-50"}`}
+                <div
+                  className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-4 transition-all min-h-[120px] text-center
+                  ${uploadingFields[field.key] ? "bg-orange-50 border-orange-300" : "bg-white border-gray-200"}`}
                 >
                   {uploadingFields[field.key] ? (
                     <Loader2 className="animate-spin text-orange-500" size={24} />
                   ) : (
-                    <>
-                      <Upload className="text-gray-300 group-hover:text-orange-500 transition-colors mb-2" size={24} />
-                      <span className="text-[10px] text-gray-400 group-hover:text-orange-600 transition-colors uppercase font-bold tracking-wider">
-                        Click to Upload
-                      </span>
-                    </>
+                    <div className="flex flex-col items-center gap-4 w-full">
+                      <div className="flex items-center justify-center gap-6 w-full">
+                        <label
+                          htmlFor={`file-${field.key}`}
+                          className="flex flex-col items-center gap-2 group cursor-pointer"
+                        >
+                          <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-all shadow-sm border border-orange-100">
+                            <Upload size={20} />
+                          </div>
+                          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider group-hover:text-orange-600">Upload</span>
+                        </label>
+
+                        <div className="h-8 w-[1px] bg-gray-100" />
+
+                        <button
+                          type="button"
+                          onClick={() => setShowCamera({ open: true, key: field.key, title: field.displayName })}
+                          className="flex flex-col items-center gap-2 group"
+                        >
+                          <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-all shadow-sm border border-orange-100">
+                            <Camera size={20} />
+                          </div>
+                          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider group-hover:text-orange-600">Camera</span>
+                        </button>
+                      </div>
+                    </div>
                   )}
-                </label>
+                </div>
               )}
             </div>
           ) : field.fieldType === "selectBox" ? (
@@ -292,6 +342,7 @@ const StageDetails = ({
                 className={`w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-400 transition-colors ${isFatherMobileField(field) && !verifiedStatus.fatherMobile ? "cursor-pointer bg-orange-50/50 hover:bg-orange-50 border-orange-200 ring-1 ring-orange-200" : ""}`}
                 value={value ?? ""}
                 onChange={handleChange}
+                maxLength={isPhone ? 10 : isAadhar ? 12 : undefined}
                 onClick={(e) => {
                   if (isFatherMobileField(field) && !verifiedStatus.fatherMobile) {
                     e.preventDefault();
@@ -433,6 +484,14 @@ const StageDetails = ({
           item={verificationItem}
           onVerified={onVerified}
           onCancel={() => setShowVerification({ ...showVerification, open: false })}
+        />
+      )}
+
+      {showCamera.open && (
+        <CameraCapture
+          title={showCamera.title}
+          onCapture={(file) => handleFileChange(showCamera.key, undefined, file)}
+          onClose={() => setShowCamera({ ...showCamera, open: false })}
         />
       )}
 

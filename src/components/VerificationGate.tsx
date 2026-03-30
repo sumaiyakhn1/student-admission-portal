@@ -131,7 +131,14 @@ const VerificationGate: React.FC<VerificationGateProps> = ({
                                         placeholder={`Enter ${currentItem.type}`}
                                         className="bg-transparent border-none focus:outline-none text-center font-bold text-gray-800 placeholder:text-gray-300 w-full"
                                         value={currentValue}
-                                        onChange={(e) => setCustomValues({ ...customValues, [currentItem.type]: e.target.value })}
+                                        onChange={(e) => {
+                                            let val = e.target.value;
+                                            if (currentItem.type.includes("Mobile")) {
+                                                val = val.replace(/\D/g, "").slice(0, 10);
+                                            }
+                                            setCustomValues({ ...customValues, [currentItem.type]: val });
+                                        }}
+                                        maxLength={currentItem.type.includes("Mobile") ? 10 : undefined}
                                     />
                                 ) : (
                                     <div className="flex items-center gap-2">

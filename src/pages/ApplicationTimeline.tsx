@@ -5,7 +5,6 @@ import Timeline from "../components/timeline/Timeline";
 import { getStudentById } from "../services/studentService";
 import { getAdmissionStages } from "../services/stageService";
 import { saveAdmissionApplication } from "../services/admissionService";
-import { assignTransport } from "../services/transportApi";
 import FooterTabs from "../components/FooterTabs";
 import toast from "react-hot-toast";
 

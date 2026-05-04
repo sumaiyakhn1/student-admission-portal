@@ -1,0 +1,249 @@
+<style>
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  .tc-container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    font-family: "Times New Roman";
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  /* Center heading properly */
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Row layout */
+  .row-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 8px;
+  }
+
+  .row-line>div {
+    width: 50%;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Label control */
+  b {
+    white-space: nowrap;
+  }
+
+  /* Field layout */
+  .field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  /* INPUT STYLE (MAIN FIX) */
+  .input-line {
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+    margin-left: 8px;
+    flex: 1;
+    /* auto stretch */
+    min-width: 120px;
+  }
+
+  /* Small inputs */
+  .input-line.small {
+    max-width: 150px;
+  }
+
+  /* SIGNATURE */
+  .sign-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    font-size: 15px;
+  }
+</style>
+
+
+<section class="tc-container">
+  <br><br><br><br><br><br><br><br>
+  <!--<h2 class="title text-center">TRANSFER CERTIFICATE</h2>-->
+  <h2 class="text-center">Session : {{displayData.session}}</h2>
+
+  <!-- Top Row -->
+  <div class="row-line balanced">
+    <div>
+      <b>Serial No.</b>
+      <input class="input-line small" [(ngModel)]="displayData.tcNumber">
+    </div>
+
+    <div>
+      <b>Date</b>
+      <input class="input-line small" [(ngModel)]="displayData.certificateIssueDate">
+    </div>
+  </div>
+
+  <!-- Fields -->
+  <div class="field">
+    <b>Name of Pupil :</b>
+    <input class="input-line" [(ngModel)]="displayData.studentName">
+  </div>
+
+  <div class="field">
+    <b>Father's/Guardian's Name :</b>
+    <input class="input-line" [(ngModel)]="displayData.studentFatherName">
+  </div>
+
+  <div class="field">
+    <b>Mother's Name :</b>
+    <input class="input-line" [(ngModel)]="displayData.motherName">
+  </div>
+
+  <div class="row-line balanced">
+    <div>
+      <b>Nationality :</b>
+      <input class="input-line small" [(ngModel)]="displayData.nationality">
+    </div>
+
+    <div>
+      <b style="min-width: 280px;">Whether the canditate belongs to SC/ST/OBC :</b>
+      <input class="input-line small" [(ngModel)]="displayData.caste">
+    </div>
+  </div>
+
+  <div class="row-line balanced">
+    <div>
+      <b>Class/Date of first admission in school :</b>
+      <input class="input-line small" [(ngModel)]="displayData.studentCourse">
+    </div>
+
+    <div>
+      <b>Date of birth (in Christian Era) as per Admission Register:</b>
+      <input class="input-line small" [matDatepicker]="datePicke" (click)="datePicke.open()"
+        [(ngModel)]="displayData.dob" />
+      <mat-datepicker #datePicke></mat-datepicker>
+    </div>
+  </div>
+
+  <!--<div class="field">-->
+  <!--  <b>Date of Birth :</b>-->
+  <!--  <input class="input-line" [(ngModel)]="displayData.dob">-->
+  <!--</div>-->
+
+  <div class="field">
+    <b> Class in which the Student last studied in:</b>
+    <input class="input-line" [(ngModel)]="displayData.studentCourse">
+  </div>
+
+  <div class="field">
+    <b>School/Board/Annual Examination last
+      taken with result :</b>
+    <input class="input-line" [(ngModel)]="displayData.board">
+  </div>
+
+  <div class="field">
+    <b>Whether failed, if so once/twice in the same class :</b>
+    <input class="input-line" [(ngModel)]="displayData.classFailed">
+  </div>
+
+  <div class="field">
+    <b>Subjects Studied :</b>
+    <input class="input-line" [(ngModel)]="displayData.subjectStudied">
+  </div>
+
+  <div class="field">
+    <b> Whether qualified for promotion to the higher class :</b>
+    <input class="input-line" [(ngModel)]="displayData.classPromoted">
+  </div>
+
+  <div class="field">
+    <b> Month upto which the (Pupil has paid) the school dues :</b>
+    <input class="input-line" [(ngModel)]="displayData.duePayMonth">
+  </div>
+
+  <div class="field">
+    <b> Any fee concession availed of, if so, the nature of such concession :</b>
+    <input class="input-line" [(ngModel)]="displayData.concessionGroupName">
+  </div>
+
+  <div class="row-line balanced">
+    <div>
+      <b>Total Working Days :</b>
+      <input class="input-line small" [(ngModel)]="displayData.totalMaxAttendance">
+    </div>
+
+    <div>
+      <b>Days Present :</b>
+      <input class="input-line small" [(ngModel)]="displayData.totalPresentAttendance">
+    </div>
+  </div>
+
+  <div class="field">
+    <b>Whether NCC Cadet/Boy Scout/Girl Guide (details may be given) :</b>
+    <input class="input-line" [(ngModel)]="displayData.ncc">
+  </div>
+
+  <div class="field">
+    <b>Games played or extra curricular activities in which the student usually took part (mention achievement level
+      therein) :</b>
+    <input class="input-line" [(ngModel)]="displayData.extraActivities">
+  </div>
+
+  <div class="field">
+    <b>General Conduct :</b>
+    <input class="input-line" [(ngModel)]="displayData.generalConduct">
+  </div>
+
+  <!-- FIXED ALIGNMENT -->
+  <div class="row-line balanced">
+    <div>
+      <b>APAAR ID :</b>
+      <input class="input-line small" [(ngModel)]="displayData.apaar">
+    </div>
+
+    <div>
+      <b>PEN No :</b>
+      <input class="input-line small" [(ngModel)]="displayData.panCard">
+    </div>
+  </div>
+
+  <div class="row-line balanced">
+    <div>
+      <b>Date of Application for Certificates :</b>
+      <input class="input-line small" [matDatepicker]="datePick" (click)="datePick.open()"
+        [(ngModel)]="displayData.certificateApplicationDate" />
+      <mat-datepicker #datePick></mat-datepicker>
+    </div>
+
+    <div>
+      <b>Date of issue of certificate :</b>
+      <input class="input-line small" [matDatepicker]="datePic" (click)="datePic.open()"
+        [(ngModel)]="displayData.certificateIssueDate" />
+      <mat-datepicker #datePic></mat-datepicker>
+    </div>
+  </div>
+
+  <div class="field">
+    <b>Reason for Leaving the School :</b>
+    <input class="input-line" [(ngModel)]="displayData.schoolLeavingReason">
+  </div>
+
+  <div class="field">
+    <b>Any other remarks :</b>
+    <input class="input-line" [(ngModel)]="displayData.otherRemark">
+  </div>
+
+  <!-- SIGN -->
+  <div class="sign-row">
+    <div>Sign. of Class Teacher</div>
+    <div>Checked by</div>
+    <div>Principal</div>
+  </div>
+
+</section>

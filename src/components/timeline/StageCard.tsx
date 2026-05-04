@@ -1,6 +1,7 @@
 import { useState } from "react";
 import StageHeader from "./StageHeader";
 import StageDetails from "./StageDetails";
+import TransportHostelStageComponent from "./TransportHostelStageComponent";
 
 const StageCard = ({
   stage,
@@ -26,15 +27,24 @@ const StageCard = ({
       />
 
       {open && (
-        <StageDetails
-          stage={stage}
-          student={student}
-          formData={formData}
-          onChange={onChange}
-          onSave={onSave}
-          saving={saving}
-          onStudentRefresh={onStudentRefresh}
-        />
+        stage._id === "transport_hostel_custom_stage" ? (
+          <TransportHostelStageComponent 
+            student={student} 
+            onStudentRefresh={onStudentRefresh} 
+          />
+        ) : (
+
+
+          <StageDetails
+            stage={stage}
+            student={student}
+            formData={formData}
+            onChange={onChange}
+            onSave={onSave}
+            saving={saving}
+            onStudentRefresh={onStudentRefresh}
+          />
+        )
       )}
     </div>
   );

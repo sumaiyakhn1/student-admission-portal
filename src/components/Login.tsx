@@ -91,7 +91,7 @@ export default function Login() {
         JSON.stringify({
           name: data.name || "User",
           email: data.email || "",
-          phone: data.phone,
+          phone: data.phone || state.mobile,
           _id: data._id,
         })
       );

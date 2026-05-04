@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listAdmissionStudents } from "../services/admissionListService";
+import { listAdmissionStudents, getUserMobile } from "../services/admissionListService";
 import Header from "../components/Header";
 import ApplicationCard from "../components/ApplicationCard";
 import FooterTabs from "../components/FooterTabs";
@@ -12,9 +12,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await listAdmissionStudents();
+         const res = await listAdmissionStudents();
         const list = res.data?.data || [];
-        setStudents(list);
+        const mobile = getUserMobile();
+        // Filter strictly by the logged-in user's phone/mobile number
+        const filtered = list.filter((s: any) => 
+          s.phone === mobile || s.mobile === mobile
+        );
+        setStudents(filtered);
       } catch (err: any) {
         console.error("❌ Admission list API failed:", err);
         setError(err?.response?.data?.message || "Failed to load applications");

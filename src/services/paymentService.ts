@@ -1,8 +1,8 @@
 import API from "./api";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const ODPAY_BASE = "https://api.okiedokiepay.com";
-export const ERP_ENTITY_ID = "698c2eed0ddb62000fef6822";
+const ODPAY_BASE = "https://staging.odpay.in";
+export const ERP_ENTITY_ID = "6608ec3120337200120f347e";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const getToken = (): string =>

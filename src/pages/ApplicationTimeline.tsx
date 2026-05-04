@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
+// Refreshing IDE to detect transportApi...
 import Header from "../components/Header";
 import Timeline from "../components/timeline/Timeline";
 import { getStudentById } from "../services/studentService";
 import { getAdmissionStages } from "../services/stageService";
 import { saveAdmissionApplication } from "../services/admissionService";
+import { assignTransport } from "../services/transportApi";
 import FooterTabs from "../components/FooterTabs";
 import toast from "react-hot-toast";
 
@@ -21,7 +23,16 @@ const ApplicationTimeline = () => {
         getAdmissionStages(),
       ]);
       setStudent(studentRes.data);
-      setStages(stageRes.data);
+      
+      const fetchedStages = stageRes.data || [];
+      const transportStage = {
+        _id: "transport_hostel_custom_stage",
+        stage: "Transport Selection",
+        sequence: 999, // ensures it's at the end
+        status: "active",
+        fields: []
+      };
+      setStages([...fetchedStages, transportStage]);
     } catch (e) {
       console.error("Failed to load data", e);
     } finally {

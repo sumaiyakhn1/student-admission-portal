@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_API_URL = "https://api.odpay.in/api";
+const BASE_API_URL = "https://staging.odpay.in/api";
 
 const getAuthToken = () => {
     return sessionStorage.getItem("authToken") || "";
@@ -62,7 +62,7 @@ export const uploadFile = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await axios.post("https://api.odpay.in/api/image/upload", formData, {
+    const res = await axios.post(`${BASE_API_URL}/image/upload`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
         },

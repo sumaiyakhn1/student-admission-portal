@@ -1,4 +1,6 @@
+import API from "./api";
 import axios from "axios";
+
 
 const ENTITY_ID = "6608ec3120337200120f347e";
 const SESSION = "2025-26 Odd";
@@ -18,14 +20,10 @@ export const getTransportRoutes = async (): Promise<any> => {
 };
 
 /**
- * Assign transport to student
+ * Assign transport to student using the student edit API
  */
-export const assignTransport = async (payload: { studentId: string; routeName: string; pickupPoint: string; amount: number }): Promise<any> => {
-    const token = sessionStorage.getItem("authToken");
-    const headers: any = {};
-    if (token) {
-        headers.Authorization = token;
-    }
-    const res = await axios.post(`${TRANSPORT_BASE_URL}/assignTransport/student`, payload, { headers });
+export const assignTransport = async (payload: any): Promise<any> => {
+    const res = await API.post("/edit/admissionStudentData", payload);
     return res.data;
 };
+

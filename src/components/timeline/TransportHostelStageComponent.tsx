@@ -9,6 +9,8 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
   const [selectedRoute, setSelectedRoute] = useState<any>(null);
   const [selectedPoint, setSelectedPoint] = useState<any>(null);
   const [isAssigning, setIsAssigning] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
 
   // Helper to format Excel fractional times (e.g. 0.3125 -> 7:30 AM)
   const formatTime = (val: string | number) => {
@@ -44,22 +46,45 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
 
     try {
       setIsAssigning(true);
+      
+      // Construct payload for the student edit API
       const payload = {
-        studentId: student._id,
-        routeName: selectedRoute.name,
-        pickupPoint: selectedPoint.pointName,
-        amount: selectedPoint.amount
+        ...student,
+        id: student._id,
+        pickUpTransport: {
+          vehicleRouteId: selectedRoute._id,
+          vehicleRoute: selectedRoute.name,
+          pickUpPoint: selectedPoint.pointName,
+          pickUpTime: formatTime(selectedPoint.pickUpTime)
+        },
+        // Also setting dropTransport with same route for completeness if needed
+        dropTransport: {
+          vehicleRouteId: selectedRoute._id,
+          vehicleRoute: selectedRoute.name,
+          dropPoint: selectedPoint.pointName, // Defaulting to same as pickup
+          dropTime: "" // Optional
+        },
+        transportStartDate: new Date().toISOString(),
       };
 
+      // Remove deprecated keys
+      delete payload.vehicleRoute;
+      delete payload.pickUpPoint;
+
       await assignTransport(payload);
+
+      setIsSuccess(true);
       toast.success(`Transport assigned: ${selectedRoute.name} - ${selectedPoint.pointName}`);
       
       // Refresh student data to reflect changes (e.g. fee updates)
       if (onStudentRefresh) onStudentRefresh();
       
-      // Close drawer
-      setSelectedRoute(null);
-      setSelectedPoint(null);
+      // Close drawer after a short delay to show "Done"
+      setTimeout(() => {
+        setSelectedRoute(null);
+        setSelectedPoint(null);
+        setIsSuccess(false);
+      }, 1500);
     } catch (err: any) {
       console.error("Transport assignment failed:", err);
       toast.error(err?.response?.data?.message || "Failed to assign transport");
@@ -70,8 +95,35 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-6 relative overflow-hidden">
+      {/* SELECTED TRANSPORT DISPLAY */}
+      {student?.pickUpTransport?.vehicleRoute && (
+        <div className="bg-green-50 rounded-2xl p-6 border border-green-100 shadow-sm animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-green-500 mb-1 block">Selected Transport</span>
+              <h3 className="text-2xl font-black text-green-700 tracking-tighter uppercase">Route: {student.pickUpTransport.vehicleRoute}</h3>
+            </div>
+            <div className="bg-green-600 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 shadow-md shadow-green-600/20">
+              <Check size={12} strokeWidth={4} /> Assigned
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white/60 rounded-xl p-3 border border-green-200/50">
+              <p className="text-[9px] font-bold text-green-600 uppercase tracking-wider mb-1">Pickup Point</p>
+              <p className="text-sm font-black text-gray-900">{student.pickUpTransport.pickUpPoint}</p>
+            </div>
+            <div className="bg-white/60 rounded-xl p-3 border border-green-200/50">
+              <p className="text-[9px] font-bold text-green-600 uppercase tracking-wider mb-1">Pickup Time</p>
+              <p className="text-sm font-black text-gray-900">{student.pickUpTransport.pickUpTime || "N/A"}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div>
         <h4 className="font-bold text-gray-800 mb-3 border-b pb-2 uppercase tracking-wider text-xs">Available Transport Routes</h4>
+
         {transportData && Array.isArray(transportData) ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {transportData.map((route: any, index: number) => (
@@ -80,6 +132,7 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
                 onClick={() => {
                   setSelectedRoute(route);
                   setSelectedPoint(null);
+                  setIsSuccess(false);
                 }}
                 className="flex items-center justify-between bg-orange-50/50 p-4 rounded-xl border border-orange-100 hover:border-orange-300 hover:bg-orange-50 transition-all text-left group"
               >
@@ -106,7 +159,7 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
         <div 
           className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9999] transition-opacity animate-in fade-in duration-300"
           onClick={() => {
-            if (!isAssigning) {
+            if (!isAssigning && !isSuccess) {
               setSelectedRoute(null);
               setSelectedPoint(null);
             }
@@ -122,11 +175,11 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
       >
         <div className="flex items-center justify-between p-6 border-b">
           <div>
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight leading-none uppercase">drswer head</h2>
+            <h2 className="text-2xl font-black text-gray-900 tracking-tight leading-none uppercase">DRAWER HEAD</h2>
             <p className="text-sm text-orange-500 font-bold mt-1 uppercase tracking-widest">Route Selection Details</p>
           </div>
           <button 
-            disabled={isAssigning}
+            disabled={isAssigning || isSuccess}
             onClick={() => {
               setSelectedRoute(null);
               setSelectedPoint(null);
@@ -170,12 +223,16 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
                         {selectedRoute.pickUpPoints.map((pt: any) => (
                           <tr 
                             key={pt._id} 
-                            onClick={() => setSelectedPoint(pt)}
+                            onClick={() => {
+                              if (!isSuccess && !isAssigning) {
+                                setSelectedPoint(pt);
+                              }
+                            }}
                             className={`cursor-pointer transition-colors ${
                               selectedPoint?._id === pt._id 
                                 ? "bg-orange-600 text-white" 
                                 : "hover:bg-orange-50/30 text-gray-900"
-                            }`}
+                            } ${(isSuccess || isAssigning) ? "pointer-events-none opacity-80" : ""}`}
                           >
                             <td className="px-5 py-4 font-bold max-w-[200px] leading-tight">
                               <div className="flex items-center gap-2">
@@ -215,11 +272,13 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
         <div className="p-6 border-t bg-gray-50/50">
           <button 
             onClick={handleConfirm}
-            disabled={!selectedPoint || isAssigning}
+            disabled={!selectedPoint || isAssigning || isSuccess}
             className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 ${
               !selectedPoint || isAssigning 
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
-                : "bg-orange-600 text-white hover:bg-orange-700 shadow-lg shadow-orange-600/30"
+                : isSuccess
+                  ? "bg-green-600 text-white shadow-lg shadow-green-600/30"
+                  : "bg-orange-600 text-white hover:bg-orange-700 shadow-lg shadow-orange-600/30"
             }`}
           >
             {isAssigning ? (
@@ -227,11 +286,17 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Assigning...
               </>
+            ) : isSuccess ? (
+              <>
+                <Check size={18} strokeWidth={3} />
+                Successfully Assigned!
+              </>
             ) : (
               "Confirm Route Selection"
             )}
           </button>
         </div>
+
       </div>
     </div>
   );

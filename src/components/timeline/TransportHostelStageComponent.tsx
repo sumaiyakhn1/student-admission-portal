@@ -51,25 +51,40 @@ const TransportHostelStageComponent = ({ student, onStudentRefresh }: any) => {
       const payload = {
         ...student,
         id: student._id,
+        
+        // Transport Data
         pickUpTransport: {
-          vehicleRouteId: selectedRoute._id,
-          vehicleRoute: selectedRoute.name,
-          pickUpPoint: selectedPoint.pointName,
-          pickUpTime: formatTime(selectedPoint.pickUpTime)
+          vehicleRouteId: selectedRoute?._id || null,
+          vehicleRoute: selectedRoute?.name || "",
+          pickUpPoint: selectedPoint?.pointName || "",
+          pickUpTime: formatTime(selectedPoint?.pickUpTime)
         },
-        // Also setting dropTransport with same route for completeness if needed
         dropTransport: {
-          vehicleRouteId: selectedRoute._id,
-          vehicleRoute: selectedRoute.name,
-          dropPoint: selectedPoint.pointName, // Defaulting to same as pickup
-          dropTime: "" // Optional
+          vehicleRouteId: selectedRoute?._id || null,
+          vehicleRoute: selectedRoute?.name || "",
+          dropPoint: selectedPoint?.pointName || "", 
+          dropTime: student?.dropTransport?.dropTime || "" 
         },
-        transportStartDate: new Date().toISOString(),
-      };
+        transportStartDate: student?.transportStartDate || new Date().toISOString(),
+        transportEndDate: student?.transportEndDate || null,
 
-      // Remove deprecated keys
-      delete payload.vehicleRoute;
-      delete payload.pickUpPoint;
+        // Hostel Data
+        hostel: student?.hostel || "",
+        hostelRoomType: student?.hostelRoomType || "",
+        hostelRoomName: student?.hostelRoomName || "",
+        hostelRoomBedName: student?.hostelRoomBedName || "",
+        hostelPaymentFrequency: student?.hostelPaymentFrequency || "",
+        hostelStartDate: student?.hostelStartDate || null,
+        hostelEndDate: student?.hostelEndDate || null,
+        hostelRoomId: student?.hostelRoomId || null,
+
+        // Concession
+        concession: student?.concession || null,
+
+        // Explicitly clear deprecated keys
+        vehicleRoute: "",
+        pickUpPoint: ""
+      };
 
       await assignTransport(payload);
 
